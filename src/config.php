@@ -1,8 +1,8 @@
 <?php
 
-define('DB_HOST', 'db');
-define('DB_USER', 'admin');
-define('DB_PASS', 'admin123');
+define('DB_HOST', 'mysql');
+define('DB_USER', 'ciberseguridad');
+define('DB_PASS', 'Admin123');
 define('DB_NAME', 'ciberseguridad');
 
 function getConnection(): mysqli {
