@@ -1,29 +1,27 @@
+version: '3.9'
+
 services:
-  app:
+  php:
     build: .
-    ports:
-      - "9292:80"
+    platform: linux/amd64
     volumes:
       - ./src:/var/www/html
-    depends_on:
-      db:
-        condition: service_healthy
+    ports:
+      - 9292:80
 
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: ciberseguridad
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: Admin123!
+  mysql:
+    image: mysql:5.7
+    platform: linux/amd64
+    restart: always
     volumes:
       - db_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - ./src/scripts/init:/docker-entrypoint-initdb.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ciberseguridad
+      MYSQL_USER: ciberseguridad
+      MYSQL_PASSWORD: Admin123
+    command: --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -32,8 +30,8 @@ services:
     ports:
       - 9191:80
     environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: admin
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
       UPLOAD_LIMIT: 100M
 
 volumes:
