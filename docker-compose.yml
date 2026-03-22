@@ -15,7 +15,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: ciberseguridad
       MYSQL_USER: admin
-      MYSQL_PASSWORD: admin123
+      MYSQL_PASSWORD: Admin123!
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -33,7 +33,7 @@ services:
       - 9001:80
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: admin
       UPLOAD_LIMIT: 100M
 
 volumes:
