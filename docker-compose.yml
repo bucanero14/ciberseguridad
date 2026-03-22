@@ -4,8 +4,6 @@ services:
   php:
     build: .
     platform: linux/amd64
-    volumes:
-      - ./src:/var/www/html
     ports:
       - 9292:80
 
